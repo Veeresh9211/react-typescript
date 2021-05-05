@@ -1,12 +1,21 @@
-import React from 'react';
+import * as React from "react"
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import { Provider } from "react-redux"
+import { createStore, applyMiddleware, Store } from "redux"
+import reducer from "./store/reducer"
 import reportWebVitals from './reportWebVitals';
+import thunk from "redux-thunk"
+import { ArticleState, ArticleAction, ArticleDispatchType } from "./components/articles/articleTypes";
+
+const store: Store<ArticleState, ArticleAction> & {dispatch: ArticleDispatchType} = createStore(reducer, applyMiddleware(thunk));
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
